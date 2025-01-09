@@ -1,43 +1,49 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Faturamento Diário</title>
-    </head>
-    <body>
-        <h1>Faturamento Diário</h1>
-        <button onclick="calcularFaturamento()">Calcular</button>
-        <p id="resultado"></p>
+<head>
+    <title>Faturamento Mensal</title>
+</head>
+<body>
+    <h1>Cálculo de Faturamento</h1>
+    <button onclick="calcularFaturamento()">Calcular</button>
+    <p id="resultado"></p>
 
-        <script>
-            async function calcularFaturamento() {
-                try {
-                    const response = await fetch('db.json');
-                
-                    if (!response.ok) {
-                        throw new Error('Erro ao carregar o arquivo JSON');
-                    }
-
-                    const dados = await response.json();
-
-                    const faturamento = dados.map(item => item.valor);
-
-                    const faturamentoFiltrado = faturamento.filter(valor => valor > 0);
-
-                    const menor = Math.min(...faturamentoFiltrado);
-                    const maior = Math.max(...faturamentoFiltrado);
-                    const media = faturamentoFiltrado.reduce((acc, val) => acc + val, 0) / faturamentoFiltrado.length;
-                    const diasAcimaMedia = faturamentoFiltrado.filter(valor => valor > media).length;
-
-                    document.getElementById("resultado").innerHTML = `
-                        Menor valor: ${menor.toFixed(2)}<br>
-                        Maior valor: ${maior.toFixed(2)}<br>
-                        Dias acima da média: ${diasAcimaMedia}
-                    `;
-                } catch (error) {
-                    console.error(error);
-                    document.getElementById("resultado").innerHTML = 'Erro ao carregar os dados.';
+    <script>
+        async function calcularFaturamento() {
+            try {
+                const response = await fetch('db.json');
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar o arquivo JSON');
                 }
+
+                const dados = await response.json();
+
+                const faturamentoFiltrado = dados
+                    .map(item => item.valor)
+                    .filter(valor => valor > 0);
+
+                if (faturamentoFiltrado.length === 0) {
+                    throw new Error('Não há valores de faturamento válidos no arquivo.');
+                }
+
+                const menor = Math.min(...faturamentoFiltrado);
+                const maior = Math.max(...faturamentoFiltrado);
+
+                const total = faturamentoFiltrado.reduce((acc, val) => acc + val, 0);
+                const media = total / faturamentoFiltrado.length;
+
+                const diasAcimaMedia = faturamentoFiltrado.filter(valor => valor > media).length;
+
+                document.getElementById("resultado").innerHTML = `
+                    Menor valor de faturamento: ${menor.toFixed(2)}<br>
+                    Maior valor de faturamento: ${maior.toFixed(2)}<br>
+                    Número de dias acima da média: ${diasAcimaMedia}
+                `;
+            } catch (error) {
+                console.error(error);
+                document.getElementById("resultado").innerHTML = 'Erro ao calcular os dados. Verifique o console para mais detalhes.';
             }
-        </script>
-    </body>
+        }
+    </script>
+</body>
 </html>
