@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Inverter String</title>
+    </head>
+    <body>
+        <h1>Inverter String</h1>
+        <input type="text" id="texto" placeholder="Digite uma string">
+        <button onclick="inverterString()">Inverter</button>
+        <p id="resultado"></p>
+
+        <script>
+            function inverterString() {
+                const texto = document.getElementById("texto").value;
+                let invertido = "";
+                for (let i = texto.length - 1; i >= 0; i--) {
+                    invertido += texto[i];
+                }
+                document.getElementById("resultado").innerText = `Invertido: ${invertido}`;
+            }
+        </script>
+    </body>
+</html>

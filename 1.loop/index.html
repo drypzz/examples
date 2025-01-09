@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Soma do Loop</title>
+    </head>
+    <body>
+        <h1>Soma do Loop</h1>
+        <p>O valor da soma será exibido abaixo:</p>
+        <button onclick="calcularSoma()">Calcular Soma</button>
+        <p id="resultado"></p>
+
+        <script>
+            function calcularSoma() {
+                let INDICE = 13, SOMA = 0, K = 0;
+                while (K < INDICE) {
+                    K += 1;
+                    SOMA += K;
+                }
+                document.getElementById("resultado").innerText = `SOMA: ${SOMA}`;
+            }
+        </script>
+    </body>
+</html>

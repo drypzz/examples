@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Faturamento Diário</title>
+    </head>
+    <body>
+        <h1>Faturamento Diário</h1>
+        <button onclick="calcularFaturamento()">Calcular</button>
+        <p id="resultado"></p>
+
+        <script>
+            function calcularFaturamento() {
+                const faturamento = [0, 150, 0, 200, 300, 0, 400, 0, 50, 0, 600, 0, 700];
+                const faturamentoFiltrado = faturamento.filter(dia => dia > 0);
+
+                const menor = Math.min(...faturamentoFiltrado);
+                const maior = Math.max(...faturamentoFiltrado);
+                const media = faturamentoFiltrado.reduce((acc, val) => acc + val, 0) / faturamentoFiltrado.length;
+                const diasAcimaMedia = faturamentoFiltrado.filter(dia => dia > media).length;
+
+                document.getElementById("resultado").innerHTML = `
+                    Menor valor: ${menor}<br>
+                    Maior valor: ${maior}<br>
+                    Dias acima da média: ${diasAcimaMedia}
+                `;
+            }
+        </script>
+    </body>
+</html>
